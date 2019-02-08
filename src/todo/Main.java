@@ -55,6 +55,9 @@ public class Main {
                         }
                     }
                     break;
+                default:
+                    System.out.println("Unsupported argument");
+                    break;
             }
 
         }
