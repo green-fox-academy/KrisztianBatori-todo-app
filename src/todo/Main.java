@@ -19,8 +19,13 @@ public class Main {
 
             switch (args[0]) {
                 case "-l":
-                    for (int i = 0; i < todos.size(); i++) {
-                        System.out.println((i + 1) + " - " + todos.get(i));
+                    if (todos.isEmpty()) {
+                        System.out.println("No todos for today! :)");
+                    }
+                    else {
+                        for (int i = 0; i < todos.size(); i++) {
+                            System.out.println((i + 1) + " - " + todos.get(i));
+                        }
                     }
             }
 
