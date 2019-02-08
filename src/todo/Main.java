@@ -31,15 +31,27 @@ public class Main {
                     }
                     break;
                 case "-a":
-                    if (args.length < 2 || args[1].charAt(0) == ' ') {
+                    if (args.length < 2) {
                         System.out.println("Unable to add: no task provided");
                     }
                     else {
                         todos.add(args[1]);
+                        writeFile(filePath, todos, "Couldn't add new task! 😱");
+                    }
+                    break;
+                case "-r":
+                    if (args.length < 2) {
+                        System.out.println("Unable to remove: no index provided");
+                    }
+                    else {
                         try {
-                            Files.write(Paths.get(filePath), todos);
-                        } catch (Exception e) {
-                            System.out.println("Couldn't add new task! 😱");
+                            int taskIndex = Integer.parseInt(args[1]);
+                            todos.remove(taskIndex - 1);
+                            writeFile(filePath, todos, "Couldn't remove task! 😱");
+                        } catch (NumberFormatException e) {
+                            System.out.println("Unable to remove: index is not a number");
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("Unable to remove: index is out of bound");
                         }
                     }
                     break;
@@ -55,6 +67,14 @@ public class Main {
             System.out.println(" -a   Adds a new task");
             System.out.println(" -r   Removes a task");
             System.out.println(" -c   Completes a task");
+        }
+    }
+
+    public static void writeFile(String filePath, ArrayList<String> todos, String errorMessage) {
+        try {
+            Files.write(Paths.get(filePath), todos);
+        } catch (Exception e) {
+            System.out.println(errorMessage);
         }
     }
 }
