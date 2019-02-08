@@ -1,10 +1,12 @@
 package todo;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,9 +16,9 @@ public class Main {
             String filePath = "../KrisztianBatori-todo-app/src/tasks.txt";
 
             try {
-                todos.addAll((ArrayList<String>)Files.readAllLines(Paths.get(filePath)));
-            } catch (Exception e) {
-                System.out.println("ToDo list can't be opened! 😱");
+                todos.addAll((ArrayList<String>) Files.readAllLines(Paths.get(filePath)));
+            } catch (IOException e) {
+                System.out.println("Couldn't open file! 😱");
             }
 
             switch (args[0]) {
@@ -35,7 +37,7 @@ public class Main {
                         System.out.println("Unable to add: no task provided");
                     }
                     else {
-                        todos.add(new Thing(args[1]));
+                        todos.addTodo(new Thing(args[1]));
                         writeFile(filePath, todos.convertTodos(), "Couldn't add new task! 😱");
                     }
                     break;
@@ -52,6 +54,22 @@ public class Main {
                             System.out.println("Unable to remove: index is not a number");
                         } catch (IndexOutOfBoundsException e) {
                             System.out.println("Unable to remove: index is out of bound");
+                        }
+                    }
+                    break;
+                case "-c":
+                    if (args.length < 2) {
+                        System.out.println("Unable to check: no index provided");
+                    }
+                    else {
+                        try {
+                            int taskIndex = Integer.parseInt(args[1]);
+                            todos.getTodo(taskIndex - 1).name = "[x] " + todos.getTodo(taskIndex - 1).name.substring(4);
+                            writeFile(filePath, todos.convertTodos(), "Couldn't check task! 😱");
+                        } catch (NumberFormatException e) {
+                            System.out.println("Unable to check: index is not a number");
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("Unable to check: index is out of bound");
                         }
                     }
                     break;

@@ -13,14 +13,14 @@ public class Fleet {
         things = new ArrayList<>();
     }
 
-    public void add(Thing thing) {
-        things.add(thing);
+    public void addTodo(Thing thing) {
+        things.add(new Thing("[ ] " + thing.toString()));
     }
 
     public void addAll(ArrayList<String> things) {
         for (String thing:
              things) {
-            add(new Thing(thing));
+            this.things.add(new Thing(thing));
         }
     }
 
@@ -43,16 +43,7 @@ public class Fleet {
     public ArrayList<String> convertTodos() {
         return (ArrayList<String>) things
                                         .stream()
-                                        .map(thing -> thing.name)
+                                        .map(thing -> thing.toString())
                                         .collect(Collectors.toList());
-    }
-
-    @Override
-    public String toString() {
-        String result = "";
-        for(int i = 0; i < things.size(); i++) {
-            result += (i+1) + " " + things.get(i) + "\n";
-        }
-        return result;
     }
 }
