@@ -10,23 +10,23 @@ public class Main {
     public static void main(String[] args) {
         if (args.length != 0) {
 
-            ArrayList<String> todos = new ArrayList<>();
+            Fleet todos = new Fleet();
             String filePath = "../KrisztianBatori-todo-app/src/tasks.txt";
 
             try {
-                todos = (ArrayList<String>)Files.readAllLines(Paths.get(filePath));
+                todos.addAll((ArrayList<String>)Files.readAllLines(Paths.get(filePath)));
             } catch (Exception e) {
                 System.out.println("ToDo list can't be opened! 😱");
             }
 
             switch (args[0]) {
                 case "-l":
-                    if (todos.isEmpty()) {
+                    if (todos.noTodos()) {
                         System.out.println("No todos for today! :)");
                     }
                     else {
-                        for (int i = 0; i < todos.size(); i++) {
-                            System.out.println((i + 1) + " - " + todos.get(i));
+                        for (int i = 0; i < todos.getTodoSize(); i++) {
+                            System.out.println((i + 1) + " - " + todos.getTodo(i));
                         }
                     }
                     break;
@@ -35,8 +35,8 @@ public class Main {
                         System.out.println("Unable to add: no task provided");
                     }
                     else {
-                        todos.add(args[1]);
-                        writeFile(filePath, todos, "Couldn't add new task! 😱");
+                        todos.add(new Thing(args[1]));
+                        writeFile(filePath, todos.convertTodos(), "Couldn't add new task! 😱");
                     }
                     break;
                 case "-r":
@@ -46,8 +46,8 @@ public class Main {
                     else {
                         try {
                             int taskIndex = Integer.parseInt(args[1]);
-                            todos.remove(taskIndex - 1);
-                            writeFile(filePath, todos, "Couldn't remove task! 😱");
+                            todos.removeTodo(taskIndex - 1);
+                            writeFile(filePath, todos.convertTodos(), "Couldn't remove task! 😱");
                         } catch (NumberFormatException e) {
                             System.out.println("Unable to remove: index is not a number");
                         } catch (IndexOutOfBoundsException e) {
