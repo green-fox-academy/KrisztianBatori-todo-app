@@ -2,11 +2,8 @@ package todo;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -80,14 +77,13 @@ public class Main {
 
         }
         else {
-            System.out.println("Command Line Todo application");
-            System.out.println("=============================");
-            System.out.println();
-            System.out.println("Command line arguments:");
-            System.out.println(" -l   Lists all the tasks");
-            System.out.println(" -a   Adds a new task");
-            System.out.println(" -r   Removes a task");
-            System.out.println(" -c   Completes a task");
+            System.out.println("Command Line Todo application\n" +
+                    "=============================\n\n" +
+                    "Command line arguments:\n" +
+                    " -l   Lists all the tasks\n" +
+                    " -a   Adds a new task\n" +
+                    " -r   Removes a task\n" +
+                    " -c   Completes a task");
         }
     }
 
